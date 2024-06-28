@@ -1,0 +1,6 @@
+numpy
+pandas
+matplotlib
+metaflow
+psycopg2
+sqlalchemy
