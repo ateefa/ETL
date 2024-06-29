@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import ultraimport
 extract_data = ultraimport('__dir__/../ETL/extract.py', 'extract_data')
-connect = ultraimport('__dir__/../ETL/connection.py', 'connect')
+connect_with_db = ultraimport('__dir__/../ETL/connection.py', 'connect_with_db')
 insert = ultraimport('__dir__/../ETL/connection.py', 'insert')
 
 class Pipeline(FlowSpec):
@@ -28,10 +28,9 @@ class Pipeline(FlowSpec):
 
     @step
     def load_in_db(self):
-        conn = connect(param_dic)
-        insert(conn, df,'data')
+        conn = connect_with_db()
+        insert(conn, self.df,'data')
         self.next(self.end)
-
 
     @step
     def end(self):

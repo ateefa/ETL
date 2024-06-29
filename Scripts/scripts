@@ -1,2 +1,6 @@
 Create Database ETL;
 CREATE TABLE data (id integer, host_id integer, neighbourhood_group varchar, neighbourhood varchar, latitude float, longitude float, room_type varchar, price integer, number_of_reviews integer, reviews_per_month float, calculated_host_listings_count integer);
+Create Table n_count(neighbourhood_group varchar, count integer)
+Create Table bnb_booked(neighbourhood_group varchar, count integer)
+Create Table nghb(neighbourhood varchar, count integer)
+

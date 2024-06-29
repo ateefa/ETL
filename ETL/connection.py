@@ -3,8 +3,10 @@ import numpy as np
 import pandas as pd
 import psycopg2
 import psycopg2.extras as extras
-param_dic = {"host": "localhost","database": "ETL","user": "postgres","password": "12345","port": 5432}
-
+import datetime as dt
+def connect_with_db():
+    param_dic = {"host": "localhost", "database": "ETL", "user": "postgres", "password": "12345", "port": 5432}
+    return connect(param_dic)
 def connect(params_dic):
     """ Connect to the PostgreSQL database server """
     conn = None
@@ -63,17 +65,37 @@ def insert(conn,df,table):
     print("execute_values() done")
     cursor.close()
 
+def load_from_db(conn):
+    cur = conn.cursor()
+    cur.execute("select * from data")
+    df = pd.DataFrame(cur.fetchall(), columns=['id', 'host_id', 'neighbourhood_group', 'neighbourhood', 'latitude',
+                                               'longitude', 'room_type', 'price', 'number_of_reviews',
+                                               'reviews_per_month', 'calculated_host_listings_count'])
+    return df
 
 
-# conn = connect(param_dic)
+conn = connect_with_db()
+df = load_from_db(conn)
+avg_price = df.groupby('neighbourhood')['price'].agg(np.mean)
+print(avg_price)
+# df['last_updated'] = dt.datetime.today().strftime("%m/%d/%Y")
+# df['Year'] = pd.to_datetime(df['last_updated']).dt.year
+# latest_yr_count = df.where(df['Year'] == 2024)
+# bnb_booked = latest_yr_count['neighbourhood_group'].value_counts()
+# bnb_booked = bnb_booked.rename_axis('unique_values').reset_index(name='counts')
+# print(bnb_booked)
+
+# print(df)
+
 # csv_file = r"/home/ateefa/Project/Demo/Data/Input/AB_NYC_2019.csv"
 # df = pd.read_csv(csv_file)
 # df = df.drop(['last_review','availability_365','name','host_name','minimum_nights'], axis=1)
 # df['reviews_per_month'].fillna(0, inplace=True)
-# cur = conn.cursor()
 # insert(conn, df,'data')
+
 # n_rows = execute_query(conn, "select count(*) from data;")
 #
 # print("Number of rows in the table = %s" % n_rows)
 # cur.close()
 # conn.close()
+
