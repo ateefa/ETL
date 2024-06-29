@@ -6,6 +6,12 @@ df.head()
 df.describe()
 print(df)
 
+# try:
+#     cur.execute("CREATE TABLE data (id integer, host_id integer, neighbourhood_group varchar, neighbourhood varchar, latitude float, longitude float, room_type varchar, price integer, number_of_reviews integer, reviews_per_month float, calculated_host_listings_count integer);")
+#     conn.commit()
+# except:
+#     print("I can't drop our test database!")
+
 
 # from extract import extract_data
 # import psycopg2
