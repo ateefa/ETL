@@ -4,6 +4,9 @@ import pandas as pd
 import psycopg2
 import psycopg2.extras as extras
 import datetime as dt
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import seaborn as sns
 def connect_with_db():
     param_dic = {"host": "localhost", "database": "ETL", "user": "postgres", "password": "12345", "port": 5432}
     return connect(param_dic)
@@ -76,8 +79,11 @@ def load_from_db(conn):
 
 conn = connect_with_db()
 df = load_from_db(conn)
-avg_price = df.groupby('neighbourhood')['price'].agg(np.mean)
-print(avg_price)
+
+
+
+# avg_price = df.groupby('neighbourhood')['price'].agg(np.mean)
+# print(avg_price)
 # df['last_updated'] = dt.datetime.today().strftime("%m/%d/%Y")
 # df['Year'] = pd.to_datetime(df['last_updated']).dt.year
 # latest_yr_count = df.where(df['Year'] == 2024)
